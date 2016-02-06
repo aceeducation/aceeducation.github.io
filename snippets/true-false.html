@@ -1,0 +1,9 @@
+<input ng-model="exercise.question" class="form-control question" placeholder="Question"/>
+<form name="{{random()}}" ng-init="exercise.correctAnswer = exercise.correctAnswer == true" class="btn-group">
+    <label class="btn btn-default">True
+        <input ng-model="exercise.correctAnswer"  ng-value="true" type="radio" />
+    </label>
+    <label class="btn btn-default">False
+        <input ng-model="exercise.correctAnswer" ng-value="false" type="radio"/>
+    </label>
+</form>

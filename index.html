@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="ace-admins">
+<head>
+    <meta charset="UTF-8">
+    <title>Ace admins</title>
+
+    <!-- SCRIPTS-->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.js"></script>
+    <script src="app.js"></script>
+    <script src="services/rest-client.js"></script>
+    <script src="exercises/exercises.js"></script>
+    <script src="https://npmcdn.com/angular-toastr/dist/angular-toastr.tpls.js"></script>
+
+    <!-- STYLESHEETS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="https://npmcdn.com/angular-toastr/dist/angular-toastr.css" />
+
+</head>
+<body>
+<!------------------------------------------------------ NAVBAR------------------------------------------------------>
+<nav class="navbar navbar-default" role="navigation">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="/exercises">
+            <span>Ace admins</span>
+        </a>
+    </div>
+    <ul class="nav navbar-nav">
+        <li class="" dropdown on-toggle="">
+            <a href="#" class=""  role="button">
+                Sign out
+            </a>
+            <tree tree='tree'></tree>
+        </li>
+    </ul>
+</nav>
+<!------------------------------------------------------------------------------------------------------------------->
+
+<div ng-view></div>
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+<div ng-keydown="onKeyPressed($event)" class="exercises-container" ng-keyup="onKeyDown($event)">
+    <div ng-repeat="exercise in exercises | orderBy: '_id': true">
+        <div class="row">
+            <fieldset ng-class="{red: exercise.failed}"
+                      ng-disabled="exercise._id != newId && exercise.status != STATUS_EDITING"
+                      class="col-md-11 col-sm-11 col-lg-11 col-xs-11 exercise-container">
+                <select ng-model="exercise.type">
+                    <option value="pd">Phrase & Definition</option>
+                    <option value="mc">Multiple choice</option>
+                    <option value="tf">True/False</option>
+                </select>
+
+                <div ng-if="exercise.type=='tf'" ng-include src="'snippets/true-false.html'"></div>
+                <div ng-if="exercise.type=='pd'" ng-include src="'snippets/phrase-definition.html'"></div>
+                <div ng-if="exercise.type=='mc'" ng-include src="'snippets/multiple-choice.html'"></div>
+                <input ng-list="," ng-trim="true" ng-model="exercise.tags" class="form-control tags"
+                       placeholder="Tags"/>
+            </fieldset>
+            <div class="col-md-1 col-sm-1 col-lg-1 col-xs-1 controls">
+                <div ng-if="exercise.status != STATUS_EDITING">
+                    <a ng-click="deleteExercise(exercise)">Delete</a><br>
+                    <a ng-if="exercise._id != newId" ng-click="editExercise(exercise)">Edit</a><br>
+                </div>
+                <div ng-if="exercise.status == STATUS_EDITING">
+                    <a ng-click="saveEditing(exercise)">Save</a><br>
+                    <a ng-click="cancelEditing(exercise)">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="footer navbar-fixed-bottom">
+    <div>
+        <button ng-click="addExercise()" id="add-btn" class="btn btn-primary pull-left">+</button>
+        <button ng-click="sendExercises()" id="send-btn" class="btn btn-primary pull-right"
+                ng-disabled="countNewExercises()==0">Send {{countNewExercises()}} exercises
+        </button>
+    </div>
+</footer>

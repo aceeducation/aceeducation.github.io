@@ -1,17 +1,16 @@
-var controller = function ($scope, $interval, RestService, $window, toastr) {
+var controller = function ($scope, $interval, RestService, $window, toastr, SharedService, $location) {
     $scope.newId = 'zzzzz';
     $scope.STATUS_EDITING = 'editing';
-    $scope.collection = 'mikail';
+
+
+    if(SharedService.isLoaded() == false){
+        toastr.warning('Can not refresh this page. Moving back to main page');
+        return $location.path('/afsdfdsafds');
+    }
+    $scope.subjectId = SharedService.getSubject()._id;
+    $scope.collection = SharedService.getCollection();
     $scope.exercises = [];
-    RestService.getExercises().then(function (exercises) {
-        $scope.exercises = exercises;
-        toastr.success('Successfully retrieved exercises.')
-
-    }, function (err) {
-        console.log(err)
-        toastr.success('Could not retrieve exercises. Try refreshing the page or come back later.')
-
-    })
+    $scope.exercises = SharedService.getExercises($scope.collection);
 
     $scope.addExercise = function () {
         $scope.exercises.push({_id: $scope.newId, type: 'pd', collection: $scope.collection});
@@ -22,7 +21,7 @@ var controller = function ($scope, $interval, RestService, $window, toastr) {
             if (exercise._id == $scope.newId) {
                 delete exercise._id
                 console.log(exercise)
-                RestService.postExercise(exercise).then(function (result) {
+                RestService.postExercise($scope.subjectId, exercise).then(function (result) {
                     toastr.success('Successfully sent exercise.')
                     exercise._id = result._id;
                     console.log(result)
@@ -51,7 +50,7 @@ var controller = function ($scope, $interval, RestService, $window, toastr) {
 
         var answer = $window.prompt('Warning: This exercise will be removed. Type in or copy the id to confirm: ' + exercise._id)
         if (answer != exercise._id) return;
-        RestService.deleteExercise(exercise).then(function () {
+        RestService.deleteExercise($scope.subjectId, exercise).then(function () {
             del();
             toastr.success('Successfully removed exercise.')
         }, function () {
@@ -59,15 +58,22 @@ var controller = function ($scope, $interval, RestService, $window, toastr) {
         });
     }
 
-    $scope.editExercise = function(exercise){
+    $scope.editExercise = function (exercise) {
         exercise.status = $scope.STATUS_EDITING;
     }
 
-    $scope.saveEditing = function(exercise){
-        $window.confirm('Are you sure you want to save your changes? There is no going back.')
+    $scope.saveEditing = function (exercise) {
+        if (!$window.confirm('Are you sure you want to save your changes? There is no going back.')) return;
+        delete exercise.status
+        RestService.putExercise($scope.subjectId, exercise).then(function () {
+            toastr.success('Successfully updated exercise.')
+        }, function () {
+            exercise.status = $scope.STATUS_EDITING;
+            toastr.error('Could not update exercise.')
+        });
     }
 
-    $scope.cancelEditing = function(exercise){
+    $scope.cancelEditing = function (exercise) {
         delete exercise.status
     }
 
@@ -82,7 +88,6 @@ var controller = function ($scope, $interval, RestService, $window, toastr) {
     }
 
     $scope.onKeyPressed = function (event) {
-        //alert(event.which)
         if (event.which === 78 && event.ctrlKey) {
             $scope.addExercise();
         }

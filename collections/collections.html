@@ -1,0 +1,19 @@
+<table class="tablesorter table table-bordered">
+    <thead class="fa fa-fw fa-sort">
+    <i class="fa fa-fw fa-sort"></i>
+    <tr>
+        <th>Collection</th>
+        <th style="width: 150px"></th>
+    </tr>
+    </thead>
+    <tbody ng-repeat="collection in collections | orderBy">
+        <tr>
+            <td>{{collection}}</td>
+            <td>
+                <a>Edit</a><br>
+                <a ng-click="manageExercises(collection)">Manage exercises</a>
+            </td>
+        </tr>
+
+    </tbody>
+</table>

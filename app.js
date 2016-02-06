@@ -2,8 +2,9 @@
 
 angular.module('ace-admins', [
     'ngRoute',
-    'ace-admins.exercises'
+    'ace-admins.exercises',
+    'ace-admins.collections'
 ])
     .config(['$routeProvider' ,function ($routeProvider) {
-        $routeProvider.otherwise({redirectTo: '/exercises'})
+        $routeProvider.otherwise({redirectTo: '/collections'})
     }]);

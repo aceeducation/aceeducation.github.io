@@ -4,24 +4,23 @@ const url = 'http://localhost:3001';
 angular
     .module('ace-admins')
     .service('RestService', function ($http, $q) {
-        this.getExercises = function () {
+        this.getSubject = function (subjectId) {
             return $q(function (resolve, reject) {
                 $http({
                     method: 'GET',
-                    url: url + '/subjects/56a87b66638dd86113f1240b'
+                    url: url + '/subjects/' + subjectId
                 }).then(function success(object, status, headers) {
-                    var collection = 'mikail';
-                    resolve(object.data.collections[collection]);
+                    resolve(object.data);
                 }, function error(response) {
                     reject({error: response});
                 });
             });
-        };
-        this.postExercise = function (exercise) {
+        }
+        this.postExercise = function (subjectId, exercise) {
             return $q(function (resolve, reject) {
                 $http({
                     method: 'POST',
-                    url: url + '/subjects/56a87b66638dd86113f1240b/exercises',
+                    url: url + '/subjects/' + subjectId + '/exercises',
                     data: exercise
                 }).then(function success(object, status, headers) {
                     resolve(object.data);
@@ -31,11 +30,25 @@ angular
                 });
             });
         }
-        this.deleteExercise = function (exercise) {
+        this.putExercise = function (subjectId, exercise) {
+            return $q(function (resolve, reject) {
+                $http({
+                    method: 'PUT',
+                    url: url + '/subjects/' + subjectId + '/exercises/' + exercise._id,
+                    data: exercise
+                }).then(function success() {
+                    resolve();
+                }, function error(response) {
+                    console.log(response)
+                    reject({error: response})
+                });
+            })
+        }
+        this.deleteExercise = function (subjectId, exercise) {
             return $q(function (resolve, reject) {
                 $http({
                     method: 'DELETE',
-                    url: url + '/subjects/56a87b66638dd86113f1240b/exercises/' + exercise._id
+                    url: url + '/subjects/' + subjectId + '/exercises/' + exercise._id
                 }).then(function success() {
                     resolve();
                 }, function error(response) {

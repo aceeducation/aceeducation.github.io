@@ -1,14 +1,20 @@
-var controller = function ($scope, $window, RestService, SharedService, $location, toastr) {
-    if(SharedService.isLoaded() == false){
-        toastr.warning('Could not refresh this page. Moving back to main page');
-        return $location.path('/afsdfdsafds');
-    }
-
+var controller = function ($scope, $window, RestService, SharedService, $location, toastr, PageService) {
+    PageService.setTitle(SharedService.getSubject().name)
     $scope.collections = SharedService.getCollections();
 
     $scope.manageExercises = function (collection) {
         SharedService.setCollection(collection);
         $location.path('/exercises');
+    }
+
+    $scope.addCollection = function(){
+        var collection = $window.prompt('What is the name of the collection?').trim();
+        if(collection.length == 0){
+            return toastr.error('You didn\'t specify a name. Please try again');
+        }else{
+            SharedService.setCollection(collection);
+            $location.path('/exercises');
+        }
     }
 };
 

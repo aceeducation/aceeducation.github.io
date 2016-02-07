@@ -1,4 +1,5 @@
-var controller = function ($scope, $window, SharedService, RestService, $location, toastr, promiseTracker) {
+var controller = function ($scope, $window, SharedService, RestService, $location, toastr, promiseTracker, PageService) {
+    PageService.setTitle('Ace admins');
     $scope.tracker = promiseTracker({ activationDelay: 200, minDuration: 750 });
     $scope.subjectId = '56ac9034ea4bda7fdd4ef331';
     $scope.next = function () {
@@ -12,8 +13,6 @@ var controller = function ($scope, $window, SharedService, RestService, $locatio
             toastr.error('Could not fetch subject. Please check that the code you entered is correct.')
         });
     }
-
-
 };
 
 angular.module('ace-admins.main', [])

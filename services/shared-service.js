@@ -18,6 +18,10 @@ angular
             return subject.collections[collection];
         }
         this.setCollection = function (coll) {
+            if(Object.keys(subject.collections).indexOf(coll) == -1){
+                console.log('not in')
+                subject.collections[coll] = [];
+            }
             collection = coll;
         }
         this.getCollection = function () {

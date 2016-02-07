@@ -2,7 +2,7 @@
 <html lang="en" ng-app="ace-admins">
 <head>
     <meta charset="UTF-8">
-    <title>Ace admins</title>
+    <title ng-bind="title">Ace admins</title>
 
     <!-- **** SCRIPTS **** -->
     <!-- CDNs-->
@@ -12,10 +12,10 @@
 
     <!-- LOCAL SCRIPTS-->
     <script src="external-scripts/promise-tracker.js"></script>
-    <script src="external-scripts/promise-tracker-http-interceptor.js"></script>
     <script src="app.js"></script>
     <script src="services/rest-client.js"></script>
     <script src="services/shared-service.js"></script>
+    <script src="services/page-service.js"></script>
     <script src="main/main.js"></script>
     <script src="collections/collections.js"></script>
     <script src="exercises/exercises.js"></script>
@@ -43,7 +43,7 @@
 </nav>
 <!------------------------------------------------------------------------------------------------------------------->
 
-<div ng-view></div>
+<div class="angular-view" ng-view></div>
 
 </body>
 </html>

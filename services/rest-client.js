@@ -10,6 +10,7 @@ angular
                     method: 'GET',
                     url: url + '/subjects/' + subjectId
                 }).then(function success(object, status, headers) {
+                    console.log(object.data)
                     resolve(object.data);
                 }, function error(response) {
                     reject({error: response});

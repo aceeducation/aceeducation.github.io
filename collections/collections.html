@@ -1,19 +1,22 @@
-<table class="tablesorter table table-bordered">
-    <thead class="fa fa-fw fa-sort">
-    <i class="fa fa-fw fa-sort"></i>
+<table class="card table ">
+    <thead>
     <tr>
         <th>Collection</th>
         <th style="width: 150px"></th>
     </tr>
     </thead>
     <tbody ng-repeat="collection in collections | orderBy">
-        <tr>
-            <td>{{collection}}</td>
-            <td>
-                <a>Edit</a><br>
-                <a ng-click="manageExercises(collection)">Manage exercises</a>
-            </td>
-        </tr>
+    <tr>
+        <td>{{collection}}</td>
+        <td>
+            <a>Edit</a><br>
+            <a ng-click="manageExercises(collection)">Manage exercises</a>
+        </td>
+    </tr>
 
     </tbody>
 </table>
+
+<footer class="footer navbar-fixed-bottom">
+    <button ng-click="addCollection()" class="btn btn-primary">New collection</button>
+</footer>

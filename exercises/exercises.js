@@ -1,33 +1,31 @@
-var controller = function ($scope, $interval, RestService, $window, toastr, SharedService, $location) {
-    if (SharedService.isLoaded() == false) {
-        toastr.warning('Could not refresh this page. Moving back to main page');
-        return $location.path('/afsdfdsafds');
-    }
-    $scope.newId = 'zzzzz';
+var controller = function ($scope, $interval, RestService, $window, toastr, SharedService, $location, PageService) {
+
+    $scope.NEW_ID = 'zzzzz';
     $scope.STATUS_EDITING = 'editing';
 
-
-    $scope.subjectId = SharedService.getSubject()._id;
+    $scope.subject = SharedService.getSubject();
     $scope.collection = SharedService.getCollection();
     $scope.exercises = SharedService.getExercises($scope.collection);
+    PageService.setTitle($scope.subject.code + ' - ' + $scope.collection);
+
 
     $scope.addExercise = function () {
-        $scope.exercises.push({_id: $scope.newId, type: 'pd', collection: $scope.collection});
-    }
+        $scope.exercises.push({_id: $scope.NEW_ID, type: 'pd', collection: $scope.collection});
+    };
 
     $scope.sendExercises = function () {
         angular.forEach($scope.exercises, function (exercise) {
-            if (exercise._id == $scope.newId) {
-                delete exercise._id
-                console.log(exercise)
-                RestService.postExercise($scope.subjectId, exercise).then(function (result) {
-                    toastr.success('Successfully sent exercise.')
+            if (exercise._id == $scope.NEW_ID) {
+                delete exercise._id;
+                console.log(exercise);
+                RestService.postExercise($scope.subject._id, exercise).then(function (result) {
+                    toastr.success('Successfully sent exercise.');
                     exercise._id = result._id;
                     console.log(result)
                 }, function () {
-                    toastr.error('Exercise was not sent')
+                    toastr.error('Exercise was not sent');
 
-                    exercise._id = $scope.newId
+                    exercise._id = $scope.NEW_ID
                     console.log('failed')
                     exercise.failed = true;
                 });
@@ -39,15 +37,15 @@ var controller = function ($scope, $interval, RestService, $window, toastr, Shar
         var del = function () {
             $scope.exercises.splice($scope.exercises.indexOf(exercise), 1);
         }
-        if (exercise._id == $scope.newId) {
+        if (exercise._id == $scope.NEW_ID) {
             var answer = $window.confirm('Are you sure you want to delete this exercise?')
             if (!answer) return;
             return del();
         }
 
-        var answer = $window.prompt('Warning: This exercise will be removed. There is no going back. Type in or copy the id to confirm: ' + exercise._id)
+        var answer = $window.prompt('Warning: This exercise will be removed. There is no going back. Type in or copy the id to confirm: ' + exercise._id).trim();
         if (answer != exercise._id) return $window.alert('You typed in the wrong id. Try again.');
-        RestService.deleteExercise($scope.subjectId, exercise).then(function () {
+        RestService.deleteExercise($scope.subject._id, exercise).then(function () {
             del();
             toastr.success('Successfully removed exercise.')
         }, function () {
@@ -55,29 +53,35 @@ var controller = function ($scope, $interval, RestService, $window, toastr, Shar
         });
     }
 
-    $scope.editExercise = function (exercise) {
-        exercise.status = $scope.STATUS_EDITING;
-    }
-
-    $scope.saveEditing = function (exercise) {
-        if (!$window.confirm('Are you sure you want to save your changes? There is no going back.')) return;
-        delete exercise.status
-        RestService.putExercise($scope.subjectId, exercise).then(function () {
-            toastr.success('Successfully updated exercise.')
-        }, function () {
+    $scope.editing = {
+        edit: function (exercise) {
+            console.log(exercise)
+            PageService.getCopiedExercises()[exercise._id] = angular.copy(exercise);
             exercise.status = $scope.STATUS_EDITING;
-            toastr.error('Could not update exercise.')
-        });
+        },
+        save: function (exercise) {
+            if (!$window.confirm('Are you sure you want to save your changes? There is no going back.')) return;
+            delete exercise.status
+            RestService.putExercise($scope.subject._id, exercise).then(function () {
+                delete PageService.getCopiedExercises()[exercise._id];
+                toastr.success('Successfully updated exercise.')
+            }, function () {
+                exercise.status = $scope.STATUS_EDITING;
+                toastr.error('Could not update exercise.')
+            });
+        },
+        cancel: function (exercise) {
+            console.log(PageService.getCopiedExercises());
+            angular.copy(PageService.getCopiedExercises()[exercise._id], exercise);
+            delete exercise.status;
+        }
     }
 
-    $scope.cancelEditing = function (exercise) {
-        delete exercise.status
-    }
 
     $scope.countNewExercises = function () {
         var count = 0;
         angular.forEach($scope.exercises, function (value) {
-            if (value._id == $scope.newId) {
+            if (value._id == $scope.NEW_ID) {
                 count++;
             }
         });

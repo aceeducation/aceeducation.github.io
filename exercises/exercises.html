@@ -1,7 +1,6 @@
 <div ng-keydown="onKeyPressed($event)" class="exercises-container">
     <div ng-repeat="exercise in exercises | orderBy: '_id': true">
         <div class="row">
-            <p>{{exercise._id}} - {{ exercise.status}}</p>
             <fieldset ng-class="{red: exercise.failed}"
                       ng-disabled="exercise._id != newId && exercise.status != STATUS_EDITING"
                       class="col-md-11 col-sm-11 col-lg-11 col-xs-11 exercise-container">

@@ -4,38 +4,42 @@
     <meta charset="UTF-8">
     <title>Ace admins</title>
 
-    <!-- SCRIPTS-->
+    <!-- **** SCRIPTS **** -->
+    <!-- CDNs-->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.js"></script>
+    <script src="https://npmcdn.com/angular-toastr/dist/angular-toastr.tpls.js"></script>
+
+    <!-- LOCAL SCRIPTS-->
+    <script src="external-scripts/promise-tracker.js"></script>
+    <script src="external-scripts/promise-tracker-http-interceptor.js"></script>
     <script src="app.js"></script>
     <script src="services/rest-client.js"></script>
     <script src="services/shared-service.js"></script>
-    <script src="exercises/exercises.js"></script>
+    <script src="main/main.js"></script>
     <script src="collections/collections.js"></script>
-    <script src="https://npmcdn.com/angular-toastr/dist/angular-toastr.tpls.js"></script>
+    <script src="exercises/exercises.js"></script>
 
-    <!-- STYLESHEETS -->
+
+
+    <!-- **** STYLESHEETS **** -->
+    <!-- CDNs-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="css/style.css"/>
     <link rel="stylesheet" href="https://npmcdn.com/angular-toastr/dist/angular-toastr.css" />
+
+    <!-- LOCAL STYLESHEETS-->
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/spinner.css"/>
 
 </head>
 <body>
 <!------------------------------------------------------ NAVBAR------------------------------------------------------>
 <nav class="navbar navbar-default" role="navigation">
     <div class="navbar-header">
-        <a class="navbar-brand" href="/exercises">
+        <a class="navbar-brand" href="#/fasfsdaf">
             <span>Ace admins</span>
         </a>
     </div>
-    <ul class="nav navbar-nav">
-        <li class="" dropdown on-toggle="">
-            <a href="#" class=""  role="button">
-                Sign out
-            </a>
-            <tree tree='tree'></tree>
-        </li>
-    </ul>
 </nav>
 <!------------------------------------------------------------------------------------------------------------------->
 

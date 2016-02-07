@@ -1,11 +1,10 @@
-var controller = function ($scope, $window, RestService, SharedService, $location) {
-    $scope.collections = []
-    RestService.getSubject('56a87b66638dd86113f1240b').then(function(subject){
-        SharedService.setSubject(subject);
-        $scope.collections = SharedService.getCollections();
-    }, function(){
-        //console.log(err)
-    })
+var controller = function ($scope, $window, RestService, SharedService, $location, toastr) {
+    if(SharedService.isLoaded() == false){
+        toastr.warning('Could not refresh this page. Moving back to main page');
+        return $location.path('/afsdfdsafds');
+    }
+
+    $scope.collections = SharedService.getCollections();
 
     $scope.manageExercises = function (collection) {
         SharedService.setCollection(collection);
@@ -13,7 +12,7 @@ var controller = function ($scope, $window, RestService, SharedService, $locatio
     }
 };
 
-angular.module('ace-admins.collections', ['ngRoute', 'toastr'])
+angular.module('ace-admins.collections', [])
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/collections', {
             templateUrl: 'collections/collections.html',

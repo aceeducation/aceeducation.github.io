@@ -1,15 +1,14 @@
 var controller = function ($scope, $interval, RestService, $window, toastr, SharedService, $location) {
+    if (SharedService.isLoaded() == false) {
+        toastr.warning('Could not refresh this page. Moving back to main page');
+        return $location.path('/afsdfdsafds');
+    }
     $scope.newId = 'zzzzz';
     $scope.STATUS_EDITING = 'editing';
 
 
-    if(SharedService.isLoaded() == false){
-        toastr.warning('Can not refresh this page. Moving back to main page');
-        return $location.path('/afsdfdsafds');
-    }
     $scope.subjectId = SharedService.getSubject()._id;
     $scope.collection = SharedService.getCollection();
-    $scope.exercises = [];
     $scope.exercises = SharedService.getExercises($scope.collection);
 
     $scope.addExercise = function () {
@@ -41,15 +40,13 @@ var controller = function ($scope, $interval, RestService, $window, toastr, Shar
             $scope.exercises.splice($scope.exercises.indexOf(exercise), 1);
         }
         if (exercise._id == $scope.newId) {
-            var answer = $window.confirm('Are you sure you want to delete this exercise? There is no going back.')
+            var answer = $window.confirm('Are you sure you want to delete this exercise?')
             if (!answer) return;
-            toastr.success('Successfully removed exercise.')
-
             return del();
         }
 
-        var answer = $window.prompt('Warning: This exercise will be removed. Type in or copy the id to confirm: ' + exercise._id)
-        if (answer != exercise._id) return;
+        var answer = $window.prompt('Warning: This exercise will be removed. There is no going back. Type in or copy the id to confirm: ' + exercise._id)
+        if (answer != exercise._id) return $window.alert('You typed in the wrong id. Try again.');
         RestService.deleteExercise($scope.subjectId, exercise).then(function () {
             del();
             toastr.success('Successfully removed exercise.')
@@ -94,7 +91,7 @@ var controller = function ($scope, $interval, RestService, $window, toastr, Shar
     }
 }
 
-angular.module('ace-admins.exercises', ['ngRoute', 'toastr'])
+angular.module('ace-admins.exercises', [])
     .config(['$routeProvider', function ($routeProvider) {
         $routeProvider.when('/exercises', {
             templateUrl: 'exercises/exercises.html',

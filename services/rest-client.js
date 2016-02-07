@@ -1,5 +1,5 @@
-const url = 'http://localhost:3001';
-//const url = 'https://acepi.herokuapp.com';
+//const url = 'http://localhost:3001';
+const url = 'https://acepi.herokuapp.com';
 
 angular
     .module('ace-admins')

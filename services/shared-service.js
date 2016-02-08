@@ -7,18 +7,22 @@ angular
         this.setSubject = function (subj) {
             subject = subj;
             isLoaded = true;
-        }
+        };
         this.getSubject = function () {
             return subject;
-        }
-        this.getCollections = function () {
-            return Object.keys(subject.collections);
-        }
+        };
         this.getExercises = function (collection) {
-            return subject.collections[collection];
-        }
+            var exercises = [];
+            angular.forEach(subject.collections, function(coll){
+                if(coll.name == collection){
+                    console.log(coll);
+                    exercises = coll.exercises;
+                }
+            });
+            return exercises;
+        };
         this.setCollection = function (coll) {
-            if(Object.keys(subject.collections).indexOf(coll) == -1){
+            if(!coll in subject.collections){
                 console.log('not in')
                 subject.collections[coll] = [];
             }

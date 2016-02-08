@@ -1,3 +1,17 @@
-<input ng-model="exercise.question" placeholder="Question" class="form-control"/>
-<input ng-model="exercise.correctAnswer" placeholder="Correct Answer" class="form-control"/>
-<textarea rows="3" ng-list="*" ng-trim="true" ng-model="exercise.alternatives" class="form-control" placeholder="Alternatives. Separate with *. Spaces or new lines between do not matter."/>
+<div class="row">
+    <p class="col-md-2 col-sm-2 col-lg-2 col-xs-2">Question</p>
+    <input ng-class="{error: exercise.error.question}" ng-model="exercise.question" placeholder="Question" class="col-md-10 col-sm-10 col-lg-10 col-xs-10"/>
+</div>
+<div class="row">
+    <p class="col-md-2 col-sm-2 col-lg-2 col-xs-2">Correct Answer</p>
+    <input ng-class="{error: exercise.error.correctAnswer}" ng-model="exercise.correctAnswer" placeholder="Correct Answer"
+           class="col-md-10 col-sm-10 col-lg-10 col-xs-10"/>
+</div>
+<div class="row">
+    <p style="resize: none;" class="col-md-2 col-sm-2 col-lg-2 col-xs-2">Alternatives</p>
+    <textarea ng-class="{error: exercise.error.alternatives}" rows="3" ng-list="*" ng-trim="true" ng-model="exercise.alternatives"
+              class="col-md-10 col-sm-10 col-lg-10 col-xs-10"
+              placeholder="Alternatives. Separate with *. Spaces or new lines between do not matter. At least two alternatives are required"/>
+</div>
+
+

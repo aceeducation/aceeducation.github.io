@@ -5,12 +5,22 @@
         <th style="width: 150px"></th>
     </tr>
     </thead>
-    <tbody ng-repeat="collection in collections | orderBy">
-    <tr>
-        <td>{{collection}}</td>
+    <tbody ng-repeat="collection in collections">
+    <tr >
         <td>
-            <a>Edit</a><br>
-            <a ng-click="manageExercises(collection)">Manage exercises</a>
+            <input class="form-control" ng-if="collection.status == STATUS_EDITING" type="text" ng-model="collection.name"/>
+            <p ng-if="collection.status != STATUS_EDITING">{{collection.name}}</p>
+        </td>
+        <td>
+            <div ng-if="collection.status != STATUS_EDITING">
+                <a ng-click="editing.edit(collection,$index)">Edit name</a><br>
+                <a ng-click="manageExercises(collection)">Manage exercises</a>
+                <a ng-click="deleteCollection(collection)">Delete</a>
+            </div>
+            <div ng-if="collection.status == STATUS_EDITING">
+                <a ng-click="editing.save(collection,$index)">Save</a><br>
+                <a ng-click="editing.cancel(collection,$index)">Cancel</a>
+            </div>
         </td>
     </tr>
 

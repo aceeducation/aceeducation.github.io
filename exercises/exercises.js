@@ -1,13 +1,12 @@
 var controller = function ($scope, $interval, RestService, $window, toastr, SharedService, $location, PageService) {
-
     $scope.NEW_ID = 'zzzzz';
     $scope.STATUS_EDITING = 'editing';
 
     $scope.subject = SharedService.getSubject();
-    $scope.collection = SharedService.getCollection();
+    $scope.collection = SharedService.getCollection().name;
     $scope.exercises = SharedService.getExercises($scope.collection);
+    console.log($scope.exercises);
     PageService.setTitle($scope.subject.code + ' - ' + $scope.collection);
-
 
     $scope.addExercise = function () {
         $scope.exercises.push({_id: $scope.NEW_ID, type: 'pd', collection: $scope.collection});
@@ -17,21 +16,29 @@ var controller = function ($scope, $interval, RestService, $window, toastr, Shar
         angular.forEach($scope.exercises, function (exercise) {
             if (exercise._id == $scope.NEW_ID) {
                 delete exercise._id;
+                delete exercise.error;
                 console.log(exercise);
                 RestService.postExercise($scope.subject._id, exercise).then(function (result) {
                     toastr.success('Successfully sent exercise.');
                     exercise._id = result._id;
                     console.log(result)
-                }, function () {
-                    toastr.error('Exercise was not sent');
+                }, function (attribute) {
+                    exercise._id = $scope.NEW_ID;
+                    if (attribute !== undefined) {
+                        exercise.error = {};
+                        exercise.error[attribute] = true;
+                        toastr.error('Exercise was not sent. ' + attribute);
+                        console.log(exercise)
+                    } else {
+                        toastr.error('Exercise was not sent. lol');
+                    }
 
-                    exercise._id = $scope.NEW_ID
                     console.log('failed')
                     exercise.failed = true;
                 });
             }
         });
-    }
+    };
 
     $scope.deleteExercise = function (exercise) {
         var del = function () {
@@ -75,7 +82,7 @@ var controller = function ($scope, $interval, RestService, $window, toastr, Shar
             angular.copy(PageService.getCopiedExercises()[exercise._id], exercise);
             delete exercise.status;
         }
-    }
+    };
 
 
     $scope.countNewExercises = function () {

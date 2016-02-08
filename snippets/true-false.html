@@ -1,9 +1,18 @@
-<input ng-model="exercise.question" class="form-control" placeholder="Question"/>
-<form name="{{random()}}" ng-init="exercise.correctAnswer = exercise.correctAnswer == true" class="btn-group">
-    <label class="btn btn-default">True
-        <input ng-model="exercise.correctAnswer"  ng-value="true" type="radio" />
-    </label>
-    <label class="btn btn-default">False
-        <input ng-model="exercise.correctAnswer" ng-value="false" type="radio"/>
-    </label>
-</form>
+<div class="row">
+    <p class="col-md-2 col-sm-2 col-lg-2 col-xs-2">Question</p>
+    <input ng-class="{error: exercise.error.question}" ng-model="exercise.question" class="col-md-10 col-sm-10 col-lg-10 col-xs-10" placeholder="Question"/>
+</div>
+
+<div class="row">
+    <p class="col-md-2 col-sm-2 col-lg-2 col-xs-2">Correct Answer</p>
+
+    <form name="{{random()}}" ng-init="exercise.correctAnswer = exercise.correctAnswer == true"
+          class="btn-group col-md-10 col-sm-10 col-lg-10 col-xs-10">
+        <label class="btn btn-default">True
+            <input ng-model="exercise.correctAnswer" ng-value="true" type="radio"/>
+        </label>
+        <label class="btn btn-default">False
+            <input ng-model="exercise.correctAnswer" ng-value="false" type="radio"/>
+        </label>
+    </form>
+</div>

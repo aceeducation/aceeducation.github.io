@@ -1,33 +1,34 @@
 <div ng-keydown="onKeyPressed($event)" style="padding-bottom: 50px;">
-    <div ng-cloak class="row" ng-repeat="exercise in exercises | orderBy: '_id': true">
-            <fieldset ng-class="{red: exercise.failed}"
-                      ng-disabled="exercise._id != NEW_ID && exercise.status != STATUS_EDITING"
-                      class="col-md-10 col-sm-10 col-lg-10 col-xs-10 card">
-                <select ng-model="exercise.type">
-                    <option value="pd">Phrase & Definition</option>
-                    <option value="mc">Multiple choice</option>
-                    <option value="tf">True/False</option>
-                </select>
+    <div ng-cloak class="row exercise-row" ng-repeat="exercise in exercises | orderBy: '_id': true">
+        <fieldset
+                  ng-disabled="exercise._id != NEW_ID && exercise.status != STATUS_EDITING"
+                  class="col-md-10 col-sm-10 col-lg-10 col-xs-10 card">
+            <select ng-model="exercise.type" class="type-select">
+                <option value="pd">Phrase & Definition</option>
+                <option value="mc">Multiple choice</option>
+                <option value="tf">True/False</option>
+            </select>
 
-                <div ng-if="exercise.type=='tf'" ng-include src="'snippets/true-false.html'"></div>
-                <div ng-if="exercise.type=='pd'" ng-include src="'snippets/phrase-definition.html'"></div>
-                <div ng-if="exercise.type=='mc'" ng-include src="'snippets/multiple-choice.html'"></div>
-                <div class="row">
-                    <p class="col-md-3 col-sm-3 col-lg-3 col-xs-3">Tags</p>
-                    <input ng-list="," ng-trim="true" ng-model="exercise.tags" class="form-control col-md-9 col-sm-9 col-lg-9 col-xs-9"
-                           placeholder="Tags"/>
-                </div>
-            </fieldset>
-            <div class="col-md-2 col-sm-2 col-lg-2 col-xs-2">
-                <div ng-if="exercise.status != STATUS_EDITING">
-                    <a ng-click="deleteExercise(exercise)">Delete</a><br>
-                    <a ng-if="exercise._id != NEW_ID" ng-click="editing.edit(exercise)">Edit</a><br>
-                </div>
-                <div ng-if="exercise.status == STATUS_EDITING">
-                    <a ng-click="editing.save(exercise)">Save</a><br>
-                    <a ng-click="editing.cancel(exercise)">Cancel</a>
-                </div>
+            <div ng-if="exercise.type=='tf'" ng-include src="'snippets/true-false.html'"></div>
+            <div ng-if="exercise.type=='pd'" ng-include src="'snippets/phrase-definition.html'"></div>
+            <div ng-if="exercise.type=='mc'" ng-include src="'snippets/multiple-choice.html'"></div>
+            <div class="row">
+                <p class="col-md-2 col-sm-2 col-lg-2 col-xs-2">Tags</p>
+                <input ng-class="{error: exercise.error.tags}" ng-list="," ng-trim="true" ng-model="exercise.tags"
+                       class="col-md-10 col-sm-10 col-lg-10 col-xs-10"
+                       placeholder="Tags (separate with commas. 2 tags are required)"/>
             </div>
+        </fieldset>
+        <div class="col-md-2 col-sm-2 col-lg-2 col-xs-2">
+            <div ng-if="exercise.status != STATUS_EDITING">
+                <a ng-click="deleteExercise(exercise)">Delete</a><br>
+                <a ng-if="exercise._id != NEW_ID" ng-click="editing.edit(exercise)">Edit</a><br>
+            </div>
+            <div ng-if="exercise.status == STATUS_EDITING">
+                <a ng-click="editing.save(exercise)">Save</a><br>
+                <a ng-click="editing.cancel(exercise)">Cancel</a>
+            </div>
+        </div>
     </div>
 </div>
 

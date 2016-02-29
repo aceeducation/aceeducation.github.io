@@ -1,25 +1,28 @@
-<table class="card table ">
+<table style="margin-bottom: 150px;" class="card table ">
     <thead>
     <tr>
         <th>Collection</th>
         <th style="width: 150px"></th>
     </tr>
     </thead>
-    <tbody ng-repeat="collection in collections">
+    <tbody ng-repeat="collection in collections | orderBy: 'name'">
     <tr >
         <td>
             <input class="form-control" ng-if="collection.status == STATUS_EDITING" type="text" ng-model="collection.name"/>
             <p ng-if="collection.status != STATUS_EDITING">{{collection.name}}</p>
         </td>
         <td>
-            <div ng-if="collection.status != STATUS_EDITING">
+            <div ng-if="collection.status != STATUS_EDITING && !collection.sending">
                 <a ng-click="editing.edit(collection,$index)">Edit name</a><br>
                 <a ng-click="manageExercises(collection)">Manage exercises</a>
                 <a ng-click="deleteCollection(collection)">Delete</a>
             </div>
-            <div ng-if="collection.status == STATUS_EDITING">
+            <div ng-if="collection.status == STATUS_EDITING && !collection.sending">
                 <a ng-click="editing.save(collection,$index)">Save</a><br>
                 <a ng-click="editing.cancel(collection,$index)">Cancel</a>
+            </div>
+            <div ng-show="collection.sending">
+                <img src="images/loader.gif">
             </div>
         </td>
     </tr>

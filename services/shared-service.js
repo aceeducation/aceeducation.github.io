@@ -22,9 +22,9 @@ angular
             return exercises;
         };
         this.setCollection = function (coll) {
-            if(!coll in subject.collections){
+            if(subject.collections.indexOf(coll) === -1){
                 console.log('not in')
-                subject.collections[coll] = [];
+                subject.collections.push(coll);
             }
             collection = coll;
         }

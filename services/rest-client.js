@@ -1,4 +1,4 @@
-//const url = 'http://localhost:3001';
+//const url = 'http://localhost:3000';
 const url = 'https://acepi.herokuapp.com';
 
 angular
@@ -24,7 +24,7 @@ angular
             return $q(function (resolve, reject) {
                 $http({
                     method: 'DELETE',
-                    url: url + '/subjects/' + subjectId + '/collections/' + collection
+                    url: url + '/subjects/' + subjectId + '/collections/' + collection.name
                 }).then(function success() {
                     resolve();
                 }, function error(response) {
@@ -63,8 +63,10 @@ angular
                     url: url + '/subjects/' + subjectId + '/exercises',
                     data: exercise
                 }).then(function success(object, status, headers) {
+                    console.log(object)
                     resolve(object.data);
                 }, function error(response) {
+                    console.log(response)
                     try{
                         reject(response.data.err[0].property[0])
                     }catch(e){
@@ -83,7 +85,11 @@ angular
                     resolve();
                 }, function error(response) {
                     console.log(response)
-                    reject({error: response})
+                    try{
+                        reject(response.data.err[0].property[0])
+                    }catch(e){
+                        reject();
+                    }
                 });
             });
         }

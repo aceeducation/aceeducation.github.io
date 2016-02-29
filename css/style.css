@@ -32,6 +32,17 @@ body{
   color: white;
 }
 
+.grayed{
+  filter: alpha(opacity=50);
+  opacity: 0.5;
+  background-color: #fff;
+  padding: 10px 20px 20px;
+  border: 1px solid #e5e5e5;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
 .exercise-row{
   margin: 10px 20px 20px;
 }

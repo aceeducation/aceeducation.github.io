@@ -2,8 +2,21 @@ var controller = function ($scope, $interval, RestService, $window, toastr, Shar
     $scope.NEW_ID = 'zzzzz';
     $scope.STATUS_EDITING = 'editing';
 
+    window.onbeforeunload = function () {
+        return '';
+    };
+
+    $window.onkeypress = function (event) {
+        if (event.keyCode === 13 && event.ctrlKey) {
+            $scope.$apply(function(){
+                $scope.addExercise();
+            });
+        }
+    };
+
     $scope.subject = SharedService.getSubject();
     $scope.collection = SharedService.getCollection().name;
+    console.log($scope.collection);
     $scope.exercises = SharedService.getExercises($scope.collection);
     console.log($scope.exercises);
     PageService.setTitle($scope.subject.code + ' - ' + $scope.collection);
@@ -17,24 +30,24 @@ var controller = function ($scope, $interval, RestService, $window, toastr, Shar
             if (exercise._id == $scope.NEW_ID) {
                 delete exercise._id;
                 delete exercise.error;
+                exercise.sending = true;
                 console.log(exercise);
                 RestService.postExercise($scope.subject._id, exercise).then(function (result) {
+                    delete  exercise.sending;
                     toastr.success('Successfully sent exercise.');
                     exercise._id = result._id;
-                    console.log(result)
+                    console.log(result);
                 }, function (attribute) {
+                    delete  exercise.sending;
                     exercise._id = $scope.NEW_ID;
                     if (attribute !== undefined) {
                         exercise.error = {};
                         exercise.error[attribute] = true;
-                        toastr.error('Exercise was not sent. ' + attribute);
+                        toastr.error('Exercise was not sent.');
                         console.log(exercise)
                     } else {
-                        toastr.error('Exercise was not sent. lol');
+                        toastr.error('Exercise was not sent.');
                     }
-
-                    console.log('failed')
-                    exercise.failed = true;
                 });
             }
         });
@@ -52,29 +65,44 @@ var controller = function ($scope, $interval, RestService, $window, toastr, Shar
 
         var answer = $window.prompt('Warning: This exercise will be removed. There is no going back. Type in or copy the id to confirm: ' + exercise._id).trim();
         if (answer != exercise._id) return $window.alert('You typed in the wrong id. Try again.');
+        exercise.sending = true;
         RestService.deleteExercise($scope.subject._id, exercise).then(function () {
+            delete  exercise.sending;
             del();
             toastr.success('Successfully removed exercise.')
         }, function () {
-            exercise.failed = true;
+            delete  exercise.sending
+            toastr.error('Could not delete exercise. Please try again later.')
         });
     }
 
     $scope.editing = {
         edit: function (exercise) {
-            console.log(exercise)
+            console.log(exercise);
             PageService.getCopiedExercises()[exercise._id] = angular.copy(exercise);
             exercise.status = $scope.STATUS_EDITING;
         },
         save: function (exercise) {
             if (!$window.confirm('Are you sure you want to save your changes? There is no going back.')) return;
-            delete exercise.status
+            delete exercise.status;
+            delete exercise.error;
+            exercise.sending = true;
+
             RestService.putExercise($scope.subject._id, exercise).then(function () {
                 delete PageService.getCopiedExercises()[exercise._id];
+                delete  exercise.sending;
                 toastr.success('Successfully updated exercise.')
-            }, function () {
+            }, function (attribute) {
                 exercise.status = $scope.STATUS_EDITING;
-                toastr.error('Could not update exercise.')
+                delete  exercise.sending;
+                if (attribute !== undefined) {
+                    exercise.error = {};
+                    exercise.error[attribute] = true;
+                    toastr.error('Exercise was not sent.');
+                    console.log(exercise)
+                } else {
+                    toastr.error('Exercise was not sent.');
+                }
             });
         },
         cancel: function (exercise) {
@@ -93,14 +121,8 @@ var controller = function ($scope, $interval, RestService, $window, toastr, Shar
             }
         });
         return count;
-    }
-
-    $scope.onKeyPressed = function (event) {
-        if (event.which === 78 && event.ctrlKey) {
-            $scope.addExercise();
-        }
-    }
-}
+    };
+};
 
 angular.module('ace-admins.exercises', [])
     .config(['$routeProvider', function ($routeProvider) {

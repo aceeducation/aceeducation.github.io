@@ -12,12 +12,7 @@ var controller = function ($scope, $window, SharedService, RestService, $locatio
             $scope.tracker.cancel();
             toastr.error('Could not fetch subject. Please check that the code you entered is correct.')
         });
-    }
-    $scope.onKeyPressed = function(event){
-        if(event.keyCode == 13){
-            $scope.next();
-        }
-    }
+    };
 };
 
 angular.module('ace-admins.main', [])

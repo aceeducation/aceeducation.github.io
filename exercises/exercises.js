@@ -65,8 +65,8 @@ var controller = function ($scope, $interval, RestService, $window, toastr, Shar
             return del();
         }
 
-        var answer = $window.prompt('Warning: This exercise will be removed. There is no going back. Type in or copy the id to confirm: ' + exercise._id).trim();
-        if (answer != exercise._id) return $window.alert('You typed in the wrong id. Try again.');
+        var answer = $window.prompt('Are you sure you want to remove this exercise? "'+ exercise.question +'" (yes)').trim().toLowerCase();
+        if (answer != 'yes') return;
         exercise.sending = true;
         RestService.deleteExercise($scope.subject._id, exercise).then(function () {
             delete  exercise.sending;
@@ -100,10 +100,10 @@ var controller = function ($scope, $interval, RestService, $window, toastr, Shar
                 if (attribute !== undefined) {
                     exercise.error = {};
                     exercise.error[attribute] = true;
-                    toastr.error('Exercise was not sent.');
+                    toastr.error('Exercise was not updated.');
                     console.log(exercise)
                 } else {
-                    toastr.error('Exercise was not sent.');
+                    toastr.error('Exercise was not updated.');
                 }
             });
         },

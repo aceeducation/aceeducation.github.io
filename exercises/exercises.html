@@ -5,7 +5,7 @@
         <option value="mc">Multiple choice</option>
         <option value="tf">True/False</option>
     </select></br>
-    Default tags:
+    Default tags for Phrase & Definition:
     <input ng-model="defaultTags" ng-list="," ng-trim="true" type="text">
 </div>
 <div style="padding-bottom: 50px;">
@@ -22,12 +22,6 @@
             <div ng-if="exercise.type=='tf'" ng-include src="'snippets/true-false.html'"></div>
             <div ng-if="exercise.type=='pd'" ng-include src="'snippets/phrase-definition.html'"></div>
             <div ng-if="exercise.type=='mc'" ng-include src="'snippets/multiple-choice.html'"></div>
-            <div class="row">
-                <p class="col-md-2 col-sm-2 col-lg-2 col-xs-2">Tags</p>
-                <input ng-class="{error: exercise.error.tags}" ng-list="," ng-trim="true" ng-model="exercise.tags"
-                       class="col-md-10 col-sm-10 col-lg-10 col-xs-10"
-                       placeholder="Tags (Separate with commas. At least one tag is required)"/>
-            </div>
         </fieldset>
         <div class="col-md-2 col-sm-2 col-lg-2 col-xs-2">
             <div ng-if="exercise.status != STATUS_EDITING && !exercise.sending">

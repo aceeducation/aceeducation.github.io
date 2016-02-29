@@ -6,3 +6,12 @@
     <p class="col-md-2 col-sm-2 col-lg-2 col-xs-2">Definition</p>
     <input ng-class="{error: exercise.error.correctAnswer}" ng-model="exercise.correctAnswer" class="col-md-10 col-sm-10 col-lg-10 col-xs-10" placeholder="Definition"/>
 </div>
+<div class="row">
+    <div class="col-md-2 col-sm-2 col-lg-2 col-xs-2">
+        <p>Tags
+        <span class="glyphicon glyphicon-question-sign" title="These tags are used to fetch alternatives from other exercises with common tags"></span></p>
+    </div>
+    <input ng-class="{error: exercise.error.tags}" ng-list="," ng-trim="true" ng-model="exercise.tags"
+           class="col-md-10 col-sm-10 col-lg-10 col-xs-10"
+           placeholder="Tags (Separate with commas. At least one tag is required)"/>
+</div>

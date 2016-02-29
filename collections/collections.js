@@ -54,7 +54,7 @@ var controller = function ($scope, $window, RestService, SharedService, $locatio
 
     $scope.deleteCollection = function (collection) {
         console.log(collection);
-        if (collection.name == $window.prompt('Are you sure you want to delete this collection? All exercises in this collections will also be deleted. If you still want this, type in the name of the collection to confirm: ' + collection.name)) {
+        if (collection.name == $window.prompt('Are you sure you want to delete this collection? All exercises in this collections will also be deleted. Type in the name of the collection to confirm: "' + collection.name + '"')) {
             collection.sending = true;
             RestService.deleteCollection(collection, SharedService.getSubject()._id).then(function () {
                 collection.sending = false;

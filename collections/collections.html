@@ -8,7 +8,7 @@
     <tbody ng-repeat="collection in collections | orderBy: 'name'">
     <tr >
         <td>
-            <input class="form-control" ng-if="collection.status == STATUS_EDITING" type="text" ng-model="collection.name"/>
+            <input on-enter="editing.save(collection,$index)" class="form-control" ng-if="collection.status == STATUS_EDITING" type="text" ng-model="collection.name"/>
             <p ng-if="collection.status != STATUS_EDITING">{{collection.name}}</p>
         </td>
         <td>

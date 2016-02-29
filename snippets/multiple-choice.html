@@ -8,7 +8,10 @@
            class="col-md-10 col-sm-10 col-lg-10 col-xs-10"/>
 </div>
 <div class="row">
-    <p style="resize: none;" class="col-md-2 col-sm-2 col-lg-2 col-xs-2">Alternatives</p>
+    <div class="col-md-2 col-sm-2 col-lg-2 col-xs-2">
+        <p>Alternatives
+            <span class="glyphicon glyphicon-question-sign" title="There needs to be at least two alternatives here. Use '*' as a separator. You can add as many spaces or newlines at the end and start of each alternative (these will be removed)."></span></p>
+    </div>
     <textarea ng-class="{error: exercise.error.alternatives}" rows="3" ng-list="*" ng-trim="true" ng-model="exercise.alternatives"
               class="col-md-10 col-sm-10 col-lg-10 col-xs-10"
               placeholder="Alternatives. Separate with *. Spaces or new lines between do not matter. At least two alternatives are required"/>

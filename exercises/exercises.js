@@ -1,6 +1,7 @@
 var controller = function ($scope, $interval, RestService, $window, toastr, SharedService, $location, PageService) {
     $scope.NEW_ID = 'zzzzz';
     $scope.STATUS_EDITING = 'editing';
+    $scope.defaultType = 'pd';
 
     window.onbeforeunload = function () {
         return '';
@@ -16,13 +17,14 @@ var controller = function ($scope, $interval, RestService, $window, toastr, Shar
 
     $scope.subject = SharedService.getSubject();
     $scope.collection = SharedService.getCollection().name;
+    $scope.defaultTags = [$scope.collection];
     console.log($scope.collection);
     $scope.exercises = SharedService.getExercises($scope.collection);
     console.log($scope.exercises);
     PageService.setTitle($scope.subject.code + ' - ' + $scope.collection);
 
     $scope.addExercise = function () {
-        $scope.exercises.push({_id: $scope.NEW_ID, type: 'pd', collection: $scope.collection});
+        $scope.exercises.push({_id: $scope.NEW_ID, type: $scope.defaultType, collection: $scope.collection, tags: $scope.defaultTags});
     };
 
     $scope.sendExercises = function () {

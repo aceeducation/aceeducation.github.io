@@ -1,9 +1,14 @@
 angular
     .module('ace-admins')
     .service('SharedService', function () {
+        var code = '';
         var isLoaded = false;
         var subject = {};
         var collection = {};
+        this.getCode = function(){return code;};
+        this.setCode = function(c){
+            code = c;
+        };
         this.setSubject = function (subj) {
             subject = subj;
             isLoaded = true;

@@ -34,7 +34,7 @@ var controller = function ($scope, $interval, RestService, $window, toastr, Shar
                 delete exercise.error;
                 exercise.sending = true;
                 console.log(exercise);
-                RestService.postExercise($scope.subject._id, exercise).then(function (result) {
+                RestService.postExercise($scope.subject._id, exercise, SharedService.getCode()).then(function (result) {
                     delete  exercise.sending;
                     toastr.success('Successfully sent exercise.');
                     exercise._id = result._id;
@@ -68,7 +68,7 @@ var controller = function ($scope, $interval, RestService, $window, toastr, Shar
         var answer = $window.prompt('Are you sure you want to remove this exercise? "'+ exercise.question +'" (yes)').trim().toLowerCase();
         if (answer != 'yes') return;
         exercise.sending = true;
-        RestService.deleteExercise($scope.subject._id, exercise).then(function () {
+        RestService.deleteExercise($scope.subject._id, exercise, SharedService.getCode()).then(function () {
             delete  exercise.sending;
             del();
             toastr.success('Successfully removed exercise.')
@@ -90,7 +90,7 @@ var controller = function ($scope, $interval, RestService, $window, toastr, Shar
             delete exercise.error;
             exercise.sending = true;
 
-            RestService.putExercise($scope.subject._id, exercise).then(function () {
+            RestService.putExercise($scope.subject._id, exercise,SharedService.getCode()).then(function () {
                 delete PageService.getCopiedExercises()[exercise._id];
                 delete  exercise.sending;
                 toastr.success('Successfully updated exercise.')

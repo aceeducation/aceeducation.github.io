@@ -6,13 +6,13 @@ angular.module('ace-admins', [
         'ace-admins.collections',
         'ace-admins.main'
     ])
-    .config(['$routeProvider', '$httpProvider', function ($routeProvider, $httpProvider) {
+    .config(function ($routeProvider, $httpProvider) {
         $routeProvider.otherwise({redirectTo: '/main'});
         $httpProvider.defaults.headers.common = {
-            //'environment': 'production'
+            //'environment': 'testing'
         }
-    }])
-    .run(function ($rootScope, $location, SharedService, toastr, $window) {
+    })
+    .run(function ($rootScope, $location, SharedService) {
         $rootScope.$on('$routeChangeStart', function (event, next) {
             if (next.templateUrl != 'main/main.html' && !SharedService.isLoaded()) {
                 $location.path('/main');

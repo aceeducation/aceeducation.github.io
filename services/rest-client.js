@@ -4,13 +4,16 @@ const url = 'https://acepi.herokuapp.com';
 angular
     .module('ace-admins')
     .service('RestService', function ($http, $q) {
-        this.putCollection = function(subjectId, oldCollection, collection){
-            console.log('Old collection: ' + oldCollection + 'Collection: ' + collection)
+        this.putCollection = function (subjectId, oldCollection, collection, code) {
+            console.log('Old collection: ' + oldCollection + 'Collection: ' + collection);
             return $q(function (resolve, reject) {
                 $http({
                     method: 'PUT',
                     url: url + '/subjects/' + subjectId + '/collections/' + oldCollection.name,
-                    data: collection
+                    data: collection,
+                    headers: {
+                        code: code
+                    }
                 }).then(function success(f) {
                     console.log(f)
                     resolve();
@@ -20,11 +23,14 @@ angular
                 });
             });
         };
-        this.deleteCollection = function(collection, subjectId){
+        this.deleteCollection = function (collection, subjectId, code) {
             return $q(function (resolve, reject) {
                 $http({
                     method: 'DELETE',
-                    url: url + '/subjects/' + subjectId + '/collections/' + collection.name
+                    url: url + '/subjects/' + subjectId + '/collections/' + collection.name,
+                    headers: {
+                        code: code
+                    }
                 }).then(function success() {
                     resolve();
                 }, function error(response) {
@@ -43,7 +49,7 @@ angular
 
                     var collections = object.data.collections;
                     subject.collections = [];
-                    for(var key in collections){
+                    for (var key in collections) {
                         var collection = {};
                         collection.name = key;
                         collection.exercises = collections[key];
@@ -56,48 +62,57 @@ angular
                 });
             });
         }
-        this.postExercise = function (subjectId, exercise) {
+        this.postExercise = function (subjectId, exercise, code) {
             return $q(function (resolve, reject) {
                 $http({
                     method: 'POST',
                     url: url + '/subjects/' + subjectId + '/exercises',
-                    data: exercise
+                    data: exercise,
+                    headers: {
+                        code: code
+                    }
                 }).then(function success(object, status, headers) {
                     console.log(object)
                     resolve(object.data);
                 }, function error(response) {
                     console.log(response)
-                    try{
+                    try {
                         reject(response.data.err[0].property[0])
-                    }catch(e){
+                    } catch (e) {
                         reject();
                     }
                 });
             });
         }
-        this.putExercise = function (subjectId, exercise) {
+        this.putExercise = function (subjectId, exercise, code) {
             return $q(function (resolve, reject) {
                 $http({
                     method: 'PUT',
                     url: url + '/subjects/' + subjectId + '/exercises/' + exercise._id,
-                    data: exercise
+                    data: exercise,
+                    headers: {
+                        code: code
+                    }
                 }).then(function success() {
                     resolve();
                 }, function error(response) {
                     console.log(response)
-                    try{
+                    try {
                         reject(response.data.err[0].property[0])
-                    }catch(e){
+                    } catch (e) {
                         reject();
                     }
                 });
             });
         }
-        this.deleteExercise = function (subjectId, exercise) {
+        this.deleteExercise = function (subjectId, exercise, code) {
             return $q(function (resolve, reject) {
                 $http({
                     method: 'DELETE',
-                    url: url + '/subjects/' + subjectId + '/exercises/' + exercise._id
+                    url: url + '/subjects/' + subjectId + '/exercises/' + exercise._id,
+                    headers: {
+                        code: code
+                    }
                 }).then(function success() {
                     resolve();
                 }, function error(response) {

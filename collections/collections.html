@@ -5,7 +5,7 @@
         <th style="width: 150px"></th>
     </tr>
     </thead>
-    <tbody ng-repeat="collection in collections | orderBy: 'name'">
+    <tbody ng-repeat="collection in collections">
     <tr >
         <td>
             <input on-enter="editing.save(collection,$index)" class="form-control" ng-if="collection.status == STATUS_EDITING" type="text" ng-model="collection.name"/>

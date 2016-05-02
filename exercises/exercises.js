@@ -1,4 +1,4 @@
-var controller = function ($scope, $interval, RestService, $window, toastr, SharedService, $location, PageService) {
+var controller = function ($scope, $rootScope, $interval, RestService, $window, toastr, SharedService, $location, PageService) {
     $scope.NEW_ID = 'zzzzz';
     $scope.STATUS_EDITING = 'editing';
     $scope.defaultType = 'pd';
@@ -22,6 +22,7 @@ var controller = function ($scope, $interval, RestService, $window, toastr, Shar
     $scope.exercises = SharedService.getExercises($scope.collection);
     console.log($scope.exercises);
     PageService.setTitle($scope.subject.code + ' - ' + $scope.collection);
+    $rootScope.headertitle = $scope.subject.name + "\t ➤ \t" + $scope.collection ;
 
     $scope.addExercise = function () {
         $scope.exercises.push({_id: $scope.NEW_ID, type: $scope.defaultType, collection: $scope.collection, tags: $scope.defaultTags});

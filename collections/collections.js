@@ -1,13 +1,17 @@
-var controller = function ($scope, $window, RestService, SharedService, $location, toastr, PageService) {
+var controller = function ($scope, $rootScope, $window, RestService, SharedService, $location, toastr, PageService) {
     $scope.STATUS_EDITING = 'editing';
     window.onbeforeunload = function () {
         return '';
     };
 
     PageService.setTitle(SharedService.getSubject().name);
-    $scope.collections = SharedService.getSubject().collections;
-    console.log($scope.collections);
 
+    var collections = SharedService.getSubject().collections;
+    collections.sort(function (a, b) {
+        return a.name.localeCompare(b.name)
+    });
+    $scope.collections = collections;
+    $rootScope.headertitle = SharedService.getSubject().name;
 
     $scope.manageExercises = function (collection) {
         SharedService.setCollection(collection);
@@ -28,6 +32,9 @@ var controller = function ($scope, $window, RestService, SharedService, $locatio
                 collection.sending = false;
                 delete PageService.getCopiedCollections()[index];
                 toastr.success('Successfully updated collection name.')
+                $scope.collections.sort(function (a, b) {
+                    return a.name.localeCompare(b.name)
+                });
             }, function () {
                 collection.sending = false;
                 collection.status = $scope.STATUS_EDITING;

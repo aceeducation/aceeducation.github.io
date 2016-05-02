@@ -1,4 +1,4 @@
-var controller = function ($scope, $window, SharedService, RestService, $location, toastr, promiseTracker, PageService) {
+var controller = function ($scope, $rootScope, $window, SharedService, RestService, $location, toastr, promiseTracker, PageService) {
     PageService.setTitle('Ace admins');
     $scope.tracker = promiseTracker({ activationDelay: 200, minDuration: 750 });
     $scope.next = function () {

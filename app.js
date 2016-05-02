@@ -9,7 +9,7 @@ angular.module('ace-admins', [
     .config(function ($routeProvider, $httpProvider) {
         $routeProvider.otherwise({redirectTo: '/main'});
         $httpProvider.defaults.headers.common = {
-            'environment': 'testing'
+            //'environment': 'testing'
         }
     })
     .run(function ($rootScope, $location, SharedService) {

@@ -22,7 +22,7 @@ var controller = function ($scope, $rootScope, $interval, RestService, $window, 
     $scope.exercises = SharedService.getExercises($scope.collection);
     console.log($scope.exercises);
     PageService.setTitle($scope.subject.code + ' - ' + $scope.collection);
-    $rootScope.headertitle = $scope.subject.name + "\t ➤ \t" + $scope.collection ;
+    $rootScope.headertitle = $scope.subject.code + " - " + $scope.subject.name + "\t ➤ \t" + $scope.collection ;
 
     $scope.addExercise = function () {
         $scope.exercises.push({_id: $scope.NEW_ID, type: $scope.defaultType, collection: $scope.collection, tags: $scope.defaultTags});

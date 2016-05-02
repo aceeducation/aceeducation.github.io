@@ -11,7 +11,7 @@ var controller = function ($scope, $rootScope, $window, RestService, SharedServi
         return a.name.localeCompare(b.name)
     });
     $scope.collections = collections;
-    $rootScope.headertitle = SharedService.getSubject().name;
+    $rootScope.headertitle = SharedService.getSubject().code + " - " +  SharedService.getSubject().name;
 
     $scope.manageExercises = function (collection) {
         SharedService.setCollection(collection);

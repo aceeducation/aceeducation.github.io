@@ -37,7 +37,6 @@ var controller = function ($scope, $rootScope, $interval, RestService, $window, 
                 console.log(exercise);
                 RestService.postExercise($scope.subject._id, exercise, SharedService.getCode()).then(function (result) {
                     delete  exercise.sending;
-                    toastr.success('Successfully sent exercise.');
                     exercise._id = result._id;
                     console.log(result);
                 }, function (attribute) {

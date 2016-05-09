@@ -28,6 +28,7 @@ var controller = function ($scope, $rootScope, $window, RestService, SharedServi
             if (!$window.confirm('Are you sure you want to save your changes? There is no going back.')) return;
             delete collection.status;
             collection.sending = true;
+            console.log(collection)
             RestService.putCollection(SharedService.getSubject()._id, PageService.getCopiedCollections()[index], collection, SharedService.getCode()).then(function () {
                 collection.sending = false;
                 delete PageService.getCopiedCollections()[index];

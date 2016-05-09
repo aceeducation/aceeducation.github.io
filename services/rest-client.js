@@ -1,16 +1,18 @@
-//const url = 'http://localhost:3000';
-const url = 'https://acepi.herokuapp.com';
+const url = 'http://localhost:3000';
+//const url = 'https://acepi.herokuapp.com';
 
 angular
     .module('ace-admins')
     .service('RestService', function ($http, $q) {
         this.putCollection = function (subjectId, oldCollection, collection, code) {
             console.log('Old collection: ' + oldCollection + 'Collection: ' + collection);
+            console.log(collection);
+            var body = {oldCollectionName: oldCollection.name, newCollectionName: collection.name}
             return $q(function (resolve, reject) {
                 $http({
                     method: 'PUT',
-                    url: url + '/subjects/' + subjectId + '/collections/' + oldCollection.name,
-                    data: collection,
+                    url: url + '/subjects/' + subjectId + '/collections',
+                    data: body,
                     headers: {
                         code: code
                     }

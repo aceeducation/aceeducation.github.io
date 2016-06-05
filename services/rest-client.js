@@ -63,7 +63,7 @@ angular
                     reject({error: response});
                 });
             });
-        }
+        };
         this.postExercise = function (subjectId, exercise, code) {
             return $q(function (resolve, reject) {
                 $http({
@@ -85,12 +85,12 @@ angular
                     }
                 });
             });
-        }
-        this.putExercise = function (subjectId, exercise, code) {
+        };
+        this.putExercise = function (subjectId, exerciseId, exercise, code) {
             return $q(function (resolve, reject) {
                 $http({
                     method: 'PUT',
-                    url: url + '/subjects/' + subjectId + '/exercises/' + exercise._id,
+                    url: url + '/subjects/' + subjectId + '/exercises/' + exerciseId,
                     data: exercise,
                     headers: {
                         code: code
@@ -106,7 +106,7 @@ angular
                     }
                 });
             });
-        }
+        };
         this.deleteExercise = function (subjectId, exercise, code) {
             return $q(function (resolve, reject) {
                 $http({
@@ -122,5 +122,5 @@ angular
                     reject({error: response})
                 });
             });
-        }
+        };
     });

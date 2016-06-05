@@ -1,4 +1,4 @@
-var controller = function ($scope, $rootScope, $interval, RestService, $window, toastr, SharedService, $location, PageService) {
+var controller = function ($scope, $rootScope, $interval, RestService, $window, toastr, SharedService, $location, PageService, CorrectorService) {
     $scope.NEW_ID = 'zzzzz';
     $scope.STATUS_EDITING = 'editing';
     $scope.defaultType = 'pd';
@@ -35,7 +35,7 @@ var controller = function ($scope, $rootScope, $interval, RestService, $window, 
                 delete exercise.error;
                 exercise.sending = true;
                 console.log(exercise);
-                RestService.postExercise($scope.subject._id, exercise, SharedService.getCode()).then(function (result) {
+                RestService.postExercise($scope.subject._id, CorrectorService.correct(exercise), SharedService.getCode()).then(function (result) {
                     delete  exercise.sending;
                     exercise._id = result._id;
                     console.log(result);
@@ -86,11 +86,12 @@ var controller = function ($scope, $rootScope, $interval, RestService, $window, 
         },
         save: function (exercise) {
             if (!$window.confirm('Are you sure you want to save your changes? There is no going back.')) return;
+            console.log(exercise);
             delete exercise.status;
             delete exercise.error;
             exercise.sending = true;
 
-            RestService.putExercise($scope.subject._id, exercise,SharedService.getCode()).then(function () {
+            RestService.putExercise($scope.subject._id, exercise._id, CorrectorService.correct(exercise),SharedService.getCode()).then(function () {
                 delete PageService.getCopiedExercises()[exercise._id];
                 delete  exercise.sending;
                 toastr.success('Successfully updated exercise.')

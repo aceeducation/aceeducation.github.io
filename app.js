@@ -4,17 +4,22 @@ angular.module('ace-admins', [
         'ajoslin.promise-tracker',
         'ace-admins.exercises',
         'ace-admins.collections',
-        'ace-admins.main'
+        'ace-admins.subjects',
+        'ace-admins.main',
+        'ngLoadingSpinner'
     ])
     .config(function ($routeProvider, $httpProvider) {
         $routeProvider.otherwise({redirectTo: '/main'});
         $httpProvider.defaults.headers.common = {
-            'environment': 'testing'
+            //'environment': 'testing'
         }
     })
     .run(function ($rootScope, $location, SharedService) {
-        $rootScope.$on('$routeChangeStart', function (event, next) {
-            if (next.templateUrl != 'main/main.html' && !SharedService.isLoaded()) {
+        $rootScope.$on('$routeChangeStart', function (event, next, current) {
+            console.log({event: event});
+            console.log({next: next});
+            console.log({current: current});
+            if (next == current || current === undefined) {
                 $location.path('/main');
             }
         });

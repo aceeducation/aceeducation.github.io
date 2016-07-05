@@ -17,11 +17,24 @@ angular
                         code: code
                     }
                 }).then(function success(f) {
-                    console.log(f)
+                    console.log(f);
                     resolve();
                 }, function error(response) {
                     console.log(response);
                     reject({error: response})
+                });
+            });
+        };
+        this.authorize = function (code) {
+            return $q(function (resolve, reject) {
+                $http({
+                    method: 'POST',
+                    url: url + '/authorize',
+                    data: {code: code}
+                }).then(function success() {
+                    resolve(true);
+                }, function error(response) {
+                    reject({error: response});
                 });
             });
         };
@@ -40,25 +53,57 @@ angular
                 });
             });
         };
+        this.getSubjects = function(){
+            return $q(function (resolve, reject) {
+                $http({
+                    method: 'GET',
+                    url: url + '/subjects'
+                }).then(function success(object, status, headers) {
+                    resolve(object.data);
+                }, function error(response) {
+                    reject({error: response});
+                });
+            });
+        };
+        this.getCollections = function (subjectId) {
+            return $q(function (resolve, reject) {
+                $http({
+                    method: 'GET',
+                    url: url + '/subjects/' + subjectId + '/exercises'
+                }).then(function success(object) {
+                    var collections = {};
+                    var exercises = object.data;
+
+                    for(var i= 0; i < exercises.length ; i++){
+                        if(!collections.hasOwnProperty(exercises[i].collection)){
+                            collections[exercises[i].collection] = [exercises[i]]
+                        }else{
+                            collections[exercises[i].collection].push(exercises[i])
+                        }
+                    }
+
+                    collectionsArray = [];
+                    for (var key in collections) {
+                        var collection = {};
+                        collection.name = key;
+                        collection.exercises = collections[key];
+                        collectionsArray.push(collection)
+                    }
+
+
+                    resolve(collectionsArray);
+                }, function error(response) {
+                    reject({error: response});
+                });
+            });
+        };
         this.getSubject = function (subjectId) {
             return $q(function (resolve, reject) {
                 $http({
                     method: 'GET',
                     url: url + '/subjects/' + subjectId
-                }).then(function success(object, status, headers) {
-                    var subject = angular.copy(object.data);
-                    delete subject.collections;
-
-                    var collections = object.data.collections;
-                    subject.collections = [];
-                    for (var key in collections) {
-                        var collection = {};
-                        collection.name = key;
-                        collection.exercises = collections[key];
-                        subject.collections.push(collection)
-                    }
-                    console.log(subject)
-                    resolve(subject);
+                }).then(function success(object) {
+                    resolve(object.data);
                 }, function error(response) {
                     reject({error: response});
                 });

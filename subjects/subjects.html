@@ -1,0 +1,14 @@
+<table style="margin-bottom: 150px;" class="card table ">
+    <thead>
+    <tr>
+        <th>Subject</th>
+        <th style="width: 150px"></th>
+    </tr>
+
+    <tbody ng-repeat="subject in subjects | orderBy: 'code'">
+    <tr >
+        <td>
+            <a style="cursor: pointer; cursor: hand;" ng-click="onSubjectClick(subject)">{{subject.code + ' - ' + subject.name}}</a>
+        </td>
+    </tr>
+</table>

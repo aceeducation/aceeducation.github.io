@@ -3,9 +3,6 @@ var controller = function ($scope, $rootScope, $interval, RestService, $window, 
     $scope.STATUS_EDITING = 'editing';
     $scope.defaultType = 'pd';
 
-    window.onbeforeunload = function () {
-        return '';
-    };
 
     $window.onkeypress = function (event) {
         if (event.keyCode === 13 && event.ctrlKey) {
@@ -19,7 +16,7 @@ var controller = function ($scope, $rootScope, $interval, RestService, $window, 
     $scope.collection = SharedService.getCollection().name;
     $scope.defaultTags = [$scope.collection];
     console.log($scope.collection);
-    $scope.exercises = SharedService.getExercises($scope.collection);
+    $scope.exercises = SharedService.getCollections($scope.collection);
     console.log($scope.exercises);
     PageService.setTitle($scope.subject.code + ' - ' + $scope.collection);
     $rootScope.headertitle = $scope.subject.code + " - " + $scope.subject.name + "\t ➤ \t" + $scope.collection ;

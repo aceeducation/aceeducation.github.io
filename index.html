@@ -18,9 +18,12 @@
     <script src="services/shared-service.js"></script>
     <script src="services/page-service.js"></script>
     <script src="main/main.js"></script>
+    <script src="subjects/subjects.js"></script>
     <script src="collections/collections.js"></script>
     <script src="exercises/exercises.js"></script>
-
+    <script type="text/javascript" src="http://fgnass.github.io/spin.js/spin.min.js"></script>
+    <script type="text/javascript" src="external-scripts/angular-spinner.min.js"></script>
+    <script type="text/javascript" src="external-scripts/angular-loading-spinner.js"></script>
 
 
     <!-- **** STYLESHEETS **** -->
@@ -46,7 +49,7 @@
     </div>
 </nav>
 <!------------------------------------------------------------------------------------------------------------------->
-
+<span us-spinner="{radius:30, width:8, length: 16}"></span>
 <div class="angular-view" ng-view></div>
 
 </body>

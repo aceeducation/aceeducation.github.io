@@ -5,6 +5,7 @@ angular
         var isLoaded = false;
         var subject = {};
         var collection = {};
+        var subjects = [];
         this.getCode = function(){return code;};
         this.setCode = function(c){
             code = c;
@@ -16,7 +17,7 @@ angular
         this.getSubject = function () {
             return subject;
         };
-        this.getExercises = function (collection) {
+        this.getCollections = function (collection) {
             var exercises = [];
             angular.forEach(subject.collections, function(coll){
                 if(coll.name == collection){
@@ -38,5 +39,11 @@ angular
         }
         this.isLoaded = function () {
             return isLoaded;
+        }
+        this.getSubjects = function () {
+            return subjects;
+        }
+        this.setSubjects = function (s) {
+            subjects = s;
         }
     });

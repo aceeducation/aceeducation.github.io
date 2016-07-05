@@ -1,8 +1,5 @@
 var controller = function ($scope, $rootScope, $window, RestService, SharedService, $location, toastr, PageService) {
     $scope.STATUS_EDITING = 'editing';
-    window.onbeforeunload = function () {
-        return '';
-    };
 
     PageService.setTitle(SharedService.getSubject().name);
 
